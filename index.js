@@ -15,7 +15,7 @@ require("dotenv").config();
 
 const port = process.env.SERVER_PORT || 3000;
 
-const sql = database.initializeSQLConnection();
+const sql = database.initializeSQLConnection(process.env.DATABASE_CONN_STRING);
 const log = logger.initializeLogger();
 
 /*
@@ -255,7 +255,9 @@ app.post("/mal/oauth2-auth/token-refresh", async (req, res) => {
     }
 });
 
-// Scheduler for automatically refreshing the oauth2 token every sunday
+/*
+* Scheduler for automatically refreshing the oauth2 token every sunday
+* */
 const jobRefreshOauth2Token = schedule.scheduleJob("* * * * * 7", async function (execDate) {
     log.info(`Job refresh oauth2 token is running at ${execDate}!!!`);
 
